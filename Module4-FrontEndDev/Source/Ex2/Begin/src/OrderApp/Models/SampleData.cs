@@ -1,17 +1,16 @@
-﻿using Microsoft.Data.Entity;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace OrderApp.Models
 {
     public static class SampleData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static void Initialize(OrdersContext context)
         {
-            var context = serviceProvider.GetService<OrdersContext>();
-            context.Database.Migrate();
+            context.Database.EnsureCreated();
 
             var random = new Random();
 

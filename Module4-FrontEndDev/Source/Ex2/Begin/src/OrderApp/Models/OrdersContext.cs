@@ -1,26 +1,18 @@
-﻿using Microsoft.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace OrderApp.Models
 {
     public class OrdersContext : DbContext
     {
-        private static bool _created = false;
-
-        public OrdersContext()
-        {
-            if (!_created)
-            {
-                _created = true;
-                Database.EnsureCreated();
-            }
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public OrdersContext(DbContextOptions<OrdersContext> options) : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Order>().ToTable("Order");
+            modelBuilder.Entity<Product>().ToTable("Product");
+            modelBuilder.Entity<OrderDetails>().ToTable("OrderDetail");
         }
 
         public DbSet<Order> Orders { get; set; }
