@@ -96,7 +96,7 @@ In this task, you will explore some of the resources that Angular 2 have to star
 
 1. Navigate to the [Angular 2 Doc's page](https://angular.io/docs/ts/latest/) by clicking the **DOCS** button located at the top menu. In that page you can find several resources.
 
-1. Navigate to the [Angular Cheat Sheet](https://angular.io/docs/ts/latest/cheatsheet.html) located under the **REFERENCE** section in the left menu. In this page you can find a summary of the most useful template syntaxes, build-in directives, forms directives, class decorators and more.
+1. Navigate to the [Angular Cheat Sheet](https://angular.io/docs/ts/latest/cheatsheet.html) located under the **GUIDE** section in the left menu. In this page you can find a summary of the most useful template syntaxes, build-in directives, forms directives, class decorators and more.
 
 1. If you have experience working with Angular 1, you can find useful the [Angular 1 to 2 Quick ref](https://angular.io/docs/ts/latest/cookbook/a1-a2-quick-reference.html) page, located under the **COOKBOOK** section in the left menu.
 
@@ -115,43 +115,32 @@ In this task, you will explore the code in the [5 Minutes Quickstart](https://an
 
 	_Openning the live sample_
 
-1. In the quickstart's live preview, open the **index.html** file and locate the dependencies required by Angular 2 under the `<!-- 1. Load libraries -->` comment.
+1. In the quickstart's live preview, open the **index.html** file and locate the dependencies required by Angular 2 under the `<!-- 1. Load libraries -->` comment. All of the libraries are hosted on unpkg which is a content delivery network for libraries published to npm.
 
 	````HTML
     <!-- 1. Load libraries -->
-    <!-- IE required polyfills, in this exact order -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
-    <script src="https://npmcdn.com/angular2@2.0.0-beta.8/es6/dev/src/testing/shims_for_IE.js"></script>   
+     <!-- Polyfill(s) for older browsers -->
+    <script src="https://unpkg.com/core-js/client/shim.min.js"></script>
 
-    <script src="https://code.angularjs.org/2.0.0-beta.8/angular2-polyfills.js"></script>
-    <script src="https://code.angularjs.org/tools/system.js"></script>
-    <script src="https://npmcdn.com/typescript@1.8.2/lib/typescript.js"></script>
-    <script src="https://code.angularjs.org/2.0.0-beta.8/Rx.js"></script>
-    <script src="https://code.angularjs.org/2.0.0-beta.8/angular2.dev.js"></script>
+    <script src="https://unpkg.com/zone.js@0.6.25?main=browser"></script>
+    <script src="https://unpkg.com/reflect-metadata@0.1.8"></script>
+    <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
 	````
 
 	> **Note:** The following is a brief description of each library.
 	>
-	> - **ES6 Shim**: This library provides compatibility shims so that legacy JavaScript engines behave as closely as possible to ECMAScript 6
+	> - **Core-js Shim**: This library provides compatibility shims so that legacy JavaScript engines behave as closely as possible to ECMAScript 6 and beyond.
+	> - **Zone.js**: Implements Zones in JavaScript which are execution contexts that persists across async tasks.
+	> - **reflect-metadata**: A polyfill for the proposed Metadata Reflection API.
 	> - **SystemJS**: An universal dynamic module loader - loads ES6 modules, AMD, CommonJS and global scripts in the browser and NodeJS. Works with both Traceur and Babel.
-	> - **TypeScript**: is a typed superset of JavaScript that compiles to plain JavaScript.
-	> - **RxJS**: The Reactive Extensions for JavaScript (RxJS) is a set of libraries to compose asynchronous and event-based programs using observable collections and Array#extras style composition in JavaScript.
-	> - **Angular 2**: The core Angular 2 library which provides all the components to create your apps.
-	> - **SystemJS** and **Angular 2** polyfills: A polyfill (or polyfiller) is additional code which provides facilities that are not built into a web browser. It implements technology that each of the libraries depend on.
 
-1. Note that there are no references to the applications files. The main.ts and the app.component.ts files are loaded by **SystemJS**, in order to do that, System.js is configured by the following code to transpile the **TypeScript** files and import the **main** file.
+1. Note that there are no references to the applications files. The main.ts and the app.component.ts files are loaded by **SystemJS**, in order to do that, System.js is configured in the systemjs.config.js file to transpile the **TypeScript** files and import the **main** file.
 
 	````HTML
     <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
     <script>
-      System.config({
-        transpiler: 'typescript',
-        typescriptOptions: { emitDecoratorMetadata: true },
-        packages: {'app': {defaultExtension: 'ts'}}
-      });
-      System.import('app/main')
-            .then(null, console.error.bind(console));
+      System.import('app').catch(function(err){ console.error(err); });
     </script>
 	````
 
@@ -173,20 +162,22 @@ In this task, you will explore the code in the [5 Minutes Quickstart](https://an
 1. The **app/main.ts** file is the first one loaded by _System.JS_ as it was the one specified in the _import_ method call. Note that this file contains two imports which loads the components from the files specified after the **from** statement.
 
 	````TypeScript
-	import {bootstrap}    from 'angular2/platform/browser'
-	import {AppComponent} from './app.component'
+	import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-	bootstrap(AppComponent);
+	import { AppModule } from './app.module';
+
+	const platform = platformBrowserDynamic();
+	platform.bootstrapModule(AppModule);
 	````
 
 1. Open the **app.component.ts** file located at the **app** folder. Every Angular app has at least one root component, conventionally named AppComponent, that hosts the client user experience. Components are the basic building blocks of Angular applications. A component controls a portion of the screen — a view — through its associated template.
 
 	````TypeScript
-	import {Component} from 'angular2/core';
+	import { Component } from '@angular/core';
 
 	@Component({
-		selector: 'my-app',
-		template: '<h1>My First Angular 2 App</h1>'
+	selector: 'my-app',
+	template: '<h1>My First Angular App</h1>'
 	})
 	export class AppComponent { }
 	````
