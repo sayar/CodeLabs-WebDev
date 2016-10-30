@@ -1,19 +1,42 @@
 {
   "name": "ASP.NET",
   "version": "0.0.0",
+  "scripts": {
+    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "lite": "lite-server",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
+  },
   "dependencies": {
-    "ag-grid": "4.0.x",
-    "ag-grid-ng2": "4.0.x",
-    "angular2": "2.0.0-beta.8",
-    "systemjs": "0.19.24",
-    "es6-shim": "^0.35.0",
-    "rxjs": "5.0.0-beta.2"
+    "@angular/common": "~2.1.1",
+    "@angular/compiler": "~2.1.1",
+    "@angular/core": "~2.1.1",
+    "@angular/forms": "~2.1.1",
+    "@angular/http": "~2.1.1",
+    "@angular/platform-browser": "~2.1.1",
+    "@angular/platform-browser-dynamic": "~2.1.1",
+    "@angular/router": "~3.1.1",
+    "@angular/upgrade": "~2.1.1",
+    "ag-grid": "6.2.x",
+    "ag-grid-ng2": "6.2.x",
+    "angular-in-memory-web-api": "~0.1.13",
+    "bootstrap": "^3.3.7",
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "systemjs": "0.19.40",
+    "zone.js": "^0.6.25"
   },
   "devDependencies": {
-    "gulp": "3.8.11",
-    "gulp-concat": "2.5.2",
+    "gulp": "3.9.1",
+    "gulp-concat": "2.6.0",
     "gulp-cssmin": "0.1.7",
-    "gulp-uglify": "1.2.0",
-    "rimraf": "2.2.8"
+    "gulp-uglify": "2.0.0",
+    "rimraf": "2.5.4",
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.45",
+    "concurrently": "^3.0.0",
+    "lite-server": "^2.2.2",
+    "typescript": "^2.0.3"
   }
 }

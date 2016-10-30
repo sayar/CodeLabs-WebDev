@@ -1,7 +1,9 @@
-﻿import {Injectable} from "angular2/core";
-import {IItemInfo} from "./itemInfo";
-import {Http, Headers, RequestOptions, Response} from "angular2/http";
+﻿import { Injectable } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import "rxjs/Rx";
+
+import MockOrders from "./mock-orders";
+import {IItemInfo} from "./itemInfo";
 
 @Injectable()
 export class OrderService {

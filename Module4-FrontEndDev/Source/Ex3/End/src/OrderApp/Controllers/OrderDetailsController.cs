@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.Data.Entity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OrderApp.Models;
 using OrderApp.ViewModels;
 
@@ -18,35 +18,6 @@ namespace OrderApp.Controllers
             this.context = context;
         }
 
-        // PUT: api/OrderDetails/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrderDetails([FromRoute] int id, [FromBody] OrderDetailsItem orderDetails)
-        {
-            if (!ModelState.IsValid)
-            {
-                return HttpBadRequest(ModelState);
-            }
-
-            if (id != orderDetails.OrderDetailsId)
-            {
-                return HttpBadRequest();
-            }
-
-            var storedOrderDetails = await this.context.OrderDetails.SingleAsync(m => m.OrderDetailsId == id);
-
-            if (storedOrderDetails == null)
-            {
-                return HttpNotFound();
-            }
-
-            storedOrderDetails.Quantity = orderDetails.Quantity;
-            storedOrderDetails.Comments = orderDetails.Comments;
-
-            await this.context.SaveChangesAsync();
-
-            return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -55,6 +26,34 @@ namespace OrderApp.Controllers
             }
 
             base.Dispose(disposing);
+        }
+        // PUT: api/OrderDetails/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutOrderDetails([FromRoute] int id, [FromBody] OrderDetailsItem orderDetails)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != orderDetails.OrderDetailsId)
+            {
+                return BadRequest();
+            }
+
+            var storedOrderDetails = await this.context.OrderDetails.SingleAsync(m => m.OrderDetailsId == id);
+
+            if (storedOrderDetails == null)
+            {
+                return NotFound();
+            }
+
+            storedOrderDetails.Quantity = orderDetails.Quantity;
+            storedOrderDetails.Comments = orderDetails.Comments;
+
+            await this.context.SaveChangesAsync();
+
+            return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
     }
 }

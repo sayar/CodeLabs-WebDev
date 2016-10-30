@@ -520,7 +520,7 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
 	(Code Snippet - _FrontEndDev - Ex3 - OrdersControllerUsings_)
 	<!--mark: 1-3-->
 	````C#
-	using Microsoft.Data.Entity;
+	using Microsoft.EntityFrameworkCore;
 	using OrderApp.Models;
 	using OrderApp.ViewModels;
 	````
@@ -595,7 +595,7 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
     {
         if (!ModelState.IsValid)
         {
-            return HttpBadRequest(ModelState);
+            return BadRequest(ModelState);
         }
 
         var order = await this.context.Orders
@@ -605,7 +605,7 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
 
         if (order == null)
         {
-            return HttpNotFound();
+            return NotFound();
         }
 
         return Ok(order.OrderDetails.Select(orderDetails => new OrderDetailsItem()
@@ -643,9 +643,9 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
 	<!--mark: 1-31-->
 	````C#
 	using System.Threading.Tasks;
-	using Microsoft.AspNet.Http;
-	using Microsoft.AspNet.Mvc;
-	using Microsoft.Data.Entity;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.EntityFrameworkCore;
 	using OrderApp.Models;
 	using OrderApp.ViewModels;
 
@@ -686,19 +686,19 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
     {
         if (!ModelState.IsValid)
         {
-            return HttpBadRequest(ModelState);
+            return BadRequest(ModelState);
         }
 
         if (id != orderDetails.OrderDetailsId)
         {
-            return HttpBadRequest();
+            return BadRequest();
         }
 
         var storedOrderDetails = await this.context.OrderDetails.SingleAsync(m => m.OrderDetailsId == id);
 
         if (storedOrderDetails == null)
         {
-            return HttpNotFound();
+            return NotFound();
         }
 
         storedOrderDetails.Quantity = orderDetails.Quantity;
@@ -706,7 +706,7 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
 
         await this.context.SaveChangesAsync();
 
-        return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
+        return new StatusCodeResult(StatusCodes.Status204NoContent);
     }
 	````
 
@@ -715,18 +715,25 @@ You'll use ASP.NET Core API, creating an API Controller class to each of the end
 
 In this task, you will use Angular's **Http** service to perform http requests to the API created in the previous task using **XMLHttpRequest**.
 
-1. Open the **boot.ts** file located in the **js** folder under **wwwroot**.
+1. Open the **app.module.ts** file located in the **js** folder under **wwwroot**.
 
-1. Add a new import statement for **HTTP_PROVIDERS** from **angular2/http** and add it to the bootstrap function call in the second parameter wrapped as an array.
+1. Add a new import statement for **HTTP_PROVIDERS** from **@angular/http** and add it to the imports array in the NgModule decorator.
 
 	````TypeScript
-	"use strict";
+import { NgModule }      from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 
-	import {bootstrap}  from "angular2/platform/browser";
-	import {OrderApp} from "./order-app.component";
-	import {HTTP_PROVIDERS} from "angular2/http";
+import { AppComponent }   from './app.component';
+import { AgGridModule } from 'ag-grid-ng2/main';
+import { DetailsGridComponent } from "./details-grid.component";
 
-	bootstrap(OrderApp, [HTTP_PROVIDERS]);
+@NgModule({
+    imports: [BrowserModule, AgGridModule.withNg2ComponentSupport(), HttpModule],
+    declarations: [AppComponent, DetailsGridComponent],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
 	````
 
 1. Open the **order.service.ts** file located in the **js** folder under **wwwroot**.
@@ -734,7 +741,7 @@ In this task, you will use Angular's **Http** service to perform http requests t
 1. In the top of the **order.service.ts** file, remove the MockOrders imports and add the following two imports to use the **Http** service.
 
 	````TypeScript
-	import {Http, Headers, RequestOptions, Response} from "angular2/http";
+	import { Http, Response, Headers, RequestOptions } from '@angular/http';
 	import "rxjs/Rx";
 	````
 
