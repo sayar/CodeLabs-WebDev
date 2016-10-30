@@ -1,20 +1,18 @@
 ﻿"use strict";
 
-import {Component, View, OnInit} from "angular2/core";
-import {GridOptions} from "ag-grid/main";
-import {AgGridNg2} from "ag-grid-ng2/main";
+import { Component, OnInit } from "@angular/core";
+
+import { GridOptions } from "ag-grid/main";
 import RefData from "./refData";
-import {IItemInfo} from "./itemInfo";
-import {DetailsGridComponent} from "./details-grid.component";
-import {OrderService} from "./order.service";
+import { IItemInfo } from "./itemInfo";
+import { OrderService } from "./order.service";
 
 @Component({
     selector: "order-app",
     providers: [OrderService],
-    directives: [AgGridNg2, DetailsGridComponent],
     templateUrl: "../html/order-app.html"
 })
-export class OrderApp implements OnInit {
+export class AppComponent implements OnInit {
     private gridOptions: GridOptions;
     private rowData: any[];
     private columnDefs: any[];
@@ -67,8 +65,8 @@ export class OrderApp implements OnInit {
                     },
                     {
                         headerName: "Country", field: "country", width: 150,
-                        cellRenderer: OrderApp.countryCellRenderer, pinned: true,
-                        filterParams: { cellRenderer: OrderApp.countryCellRenderer, cellHeight: 20 }
+                        cellRenderer: AppComponent.countryCellRenderer, pinned: true,
+                        filterParams: { cellRenderer: AppComponent.countryCellRenderer, cellHeight: 20 }
                     },
                 ]
             },

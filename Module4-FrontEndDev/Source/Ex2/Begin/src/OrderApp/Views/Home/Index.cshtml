@@ -15,21 +15,8 @@
 </section>
 
 @section Scripts {
+    <script src="~/js/systemjs.config.js"></script>
     <script>
-        System.config({
-            packages: {
-                'js': { defaultExtension: 'js' },
-                'lib': { defaultExtension: 'js' },
-                'ag-grid': { defaultExtension: "js" },
-                'ag-grid-ng2': { defaultExtension: "js" }
-            },
-            map: {
-                'ag-grid-ng2': 'lib/npmlibs/ag-grid-ng2',
-                'ag-grid': 'lib/npmlibs/ag-grid',
-            }
-        });
-
-        System.import('js/boot')
-            .then(null, console.error.bind(console));
+          System.import('app').catch(function(err){ console.error(err); });
     </script>
 }

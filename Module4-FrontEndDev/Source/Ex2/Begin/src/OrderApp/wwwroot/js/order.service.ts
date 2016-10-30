@@ -1,4 +1,5 @@
-﻿import {Injectable} from "angular2/core";
+﻿import { Injectable } from '@angular/core';
+
 import MockOrders from "./mock-orders";
 import {IItemInfo} from "./itemInfo";
 

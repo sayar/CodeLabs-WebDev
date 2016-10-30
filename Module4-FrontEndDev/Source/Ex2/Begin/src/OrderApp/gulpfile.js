@@ -1,4 +1,4 @@
-/// <binding Clean='clean' ProjectOpened='moveToLibs' />
+/// <binding BeforeBuild='moveToLibs' Clean='clean' ProjectOpened='moveToLibs' />
 "use strict";
 
 var gulp = require("gulp"),
@@ -47,18 +47,24 @@ gulp.task("min:css", function () {
 gulp.task("min", ["min:js", "min:css"]);
 
 var libsToMove = [
-   paths.npmSrc + '/es6-shim/es6-shim.min.js',
-   paths.npmSrc + '/rxjs/bundles/Rx.js'
+   paths.npmSrc + '/core-js/client/shim.min.js',
+   paths.npmSrc + '/zone.js/dist/zone.min.js',
+   paths.npmSrc + '/reflect-metadata/Reflect.js',
 ];
 
 gulp.task("copy-deps:systemjs", function () {
-    return gulp.src(paths.npmSrc + '/systemjs/dist/**/*.*', { base: paths.npmSrc + '/systemjs/dist/' })
+    return gulp.src([paths.npmSrc + '/systemjs/dist/**/*.js'], { base: paths.npmSrc + '/systemjs/dist/' })
          .pipe(gulp.dest(paths.npmLibs + '/systemjs/'));
 });
 
 gulp.task("copy-deps:angular2", function () {
-    return gulp.src(paths.npmSrc + '/angular2/bundles/**/*.js', { base: paths.npmSrc + '/angular2/bundles/' })
-         .pipe(gulp.dest(paths.npmLibs + '/angular2/'));
+    return gulp.src(paths.npmSrc + '/@angular/**/*.js', { base: paths.npmSrc + '/@angular/' })
+         .pipe(gulp.dest(paths.npmLibs + '/@angular/'));
+});
+
+gulp.task("copy-deps:rxjs", function () {
+    return gulp.src(paths.npmSrc + '/rxjs/**/*.js', { base: paths.npmSrc + '/rxjs/' })
+         .pipe(gulp.dest(paths.npmLibs + '/rxjs/'));
 });
 
 gulp.task("copy-deps:ag-grid-ng2", function () {
@@ -78,4 +84,4 @@ gulp.task('moveToLibs:singleFiles', function () {
     return gulp.src(libsToMove).pipe(gulp.dest(paths.npmLibs));
 });
 
-gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "copy-deps:ag-grid", 'copy-deps:angular2', 'copy-deps:systemjs']);
+gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "copy-deps:ag-grid", 'copy-deps:angular2', 'copy-deps:systemjs', 'copy-deps:rxjs']);
