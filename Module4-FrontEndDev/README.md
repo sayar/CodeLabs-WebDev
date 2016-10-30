@@ -239,21 +239,21 @@ In this task, you will explore the **OrderApp** application which uses two grids
 
 	````JSON
 	{
-	  "compilerOptions": {
-		 "noImplicitAny": false,
-		 "noEmitOnError": true,
-		 "removeComments": false,
-		 "sourceMap": true,
-		 "target": "es5",
-		 "emitDecoratorMetadata": true,
-		 "experimentalDecorators": true,
-		 "module": "system",
-		 "moduleResolution": "node"
-	  },
-	  "exclude": [
-		 "node_modules",
-		 "wwwroot/lib"
-	  ]
+		"compilerOptions": {
+			"noImplicitAny": false,
+			"noEmitOnError": true,
+			"removeComments": false,
+			"sourceMap": true,
+			"target": "es5",
+			"emitDecoratorMetadata": true,
+			"experimentalDecorators": true,
+			"module": "system",
+			"moduleResolution": "node"
+		},
+		"exclude": [
+			"node_modules",
+			"wwwroot/lib"
+		]
 	}
 	````
 
@@ -266,25 +266,48 @@ In this task, you will explore the **OrderApp** application which uses two grids
 1. Locate the **dependencies** node inside the _package.json_ file. In that node, you can find the Angular 2 dependencies described in the previous exercise. Additionally, note that there are two additional dependencies _ag-grid_ and _ag-grid-ng2_ which enable you to use a grid component in your application.
 
 	````JSON
-	{
-	  "name": "ASP.NET",
-	  "version": "0.0.0",
-	  "dependencies": {
-		 "ag-grid": "4.0.x",
-		 "ag-grid-ng2": "4.0.x",
-		 "angular2": "2.0.0-beta.8",
-		 "systemjs": "0.19.24",
-		 "es6-shim": "^0.35.0",
-		 "rxjs": "5.0.0-beta.2"
-	  },
-	  "devDependencies": {
-		 "gulp": "3.8.11",
-		 "gulp-concat": "2.5.2",
-		 "gulp-cssmin": "0.1.7",
-		 "gulp-uglify": "1.2.0",
-		 "rimraf": "2.2.8"
-	  }
-	}
+{
+  "name": "ASP.NET",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "lite": "lite-server",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
+  },
+  "dependencies": {
+    "@angular/common": "~2.1.1",
+    "@angular/compiler": "~2.1.1",
+    "@angular/core": "~2.1.1",
+    "@angular/forms": "~2.1.1",
+    "@angular/http": "~2.1.1",
+    "@angular/platform-browser": "~2.1.1",
+    "@angular/platform-browser-dynamic": "~2.1.1",
+    "@angular/router": "~3.1.1",
+    "@angular/upgrade": "~2.1.1",
+    "ag-grid": "6.2.x",
+    "ag-grid-ng2": "6.2.x",
+    "angular-in-memory-web-api": "~0.1.13",
+    "bootstrap": "^3.3.7",
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "systemjs": "0.19.40",
+    "zone.js": "^0.6.25"
+  },
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-concat": "2.6.0",
+    "gulp-cssmin": "0.1.7",
+    "gulp-uglify": "2.0.0",
+    "rimraf": "2.5.4",
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.45",
+    "concurrently": "^3.0.0",
+    "lite-server": "^2.2.2",
+    "typescript": "^2.0.3"
+  }
+}
 	````
 
 1. These dependencies will be located at the **node_modules** folder which is not served by the web server. In order to be able to consume them, you will need to move the inside the **wwwroot** folder. Open the **gulpfile.js** file located at the root of the **OrderApp** project.
@@ -292,21 +315,22 @@ In this task, you will explore the **OrderApp** application which uses two grids
 1. In the **gulpfile.js** file you can find some tasks that will copy each of the dependencies to the **lib/npmlibs/** folder inside **wwwroot**. The main task is **moveToLibs** which depends on the **moveToLibs:singleFiles** as well as all the _copy-deps_ tasks.
 
 	````JavaScript
-	// ...
+// ...
 
-	gulp.task(**"copy-deps:ag-grid"**, function () {
-		 return gulp.src([paths.npmSrc + '/ag-grid/main.js',
-						 paths.npmSrc + '/ag-grid/dist/**/*.js',
-						 paths.npmSrc + '/ag-grid/dist/styles/*.*'
-		 ], { base: paths.npmSrc + '/ag-grid/' })
-				.pipe(gulp.dest(paths.npmLibs + '/ag-grid/'));
-	});
+gulp.task("copy-deps:ag-grid", function () {
+    return gulp.src([paths.npmSrc + '/ag-grid/main.js',
+                paths.npmSrc + '/ag-grid/dist/**/*.js',
+                paths.npmSrc + '/ag-grid/dist/styles/*.*'
+    ], { base: paths.npmSrc + '/ag-grid/' })
+         .pipe(gulp.dest(paths.npmLibs + '/ag-grid/'));
+});
 
-	gulp.task(**'moveToLibs:singleFiles'**, function () {
-		 return gulp.src(libsToMove).pipe(gulp.dest(paths.npmLibs));
-	});
+gulp.task('moveToLibs:singleFiles', function () {
+    return gulp.src(libsToMove).pipe(gulp.dest(paths.npmLibs));
+});
 
-	gulp.task(**"moveToLibs"**, ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "copy-deps:ag-grid", 'copy-deps:angular2', 'copy-deps:systemjs']);
+gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "copy-deps:ag-grid", 'copy-deps:angular2', 'copy-deps:systemjs', 'copy-deps:rxjs']);
+
 	````
 
 1. In the **Task Runner Explorer** view, right-click the **moveToLibs** task and select **Run** to execute the task. Note that in the same menu, you can bind the tasks to before or after the build, the clean of the project or when the project opens.
@@ -321,24 +345,33 @@ In this task, you will explore the **OrderApp** application which uses two grids
 
 	_Dependencies loaded from the npmlibs folder_
 
-1. Open the **Index.cshtml** file located under the **Views/Home** folder. Note that there is an **order-app** tag which is the main component's selector. Additionally, you can find the _System.js_ configuration as well as the import of the _boot_ file.
+1. Open the **Index.cshtml** file located under the **Views/Home** folder. Note that there is an **order-app** tag which is the main component's selector. Additionally, you can a script tag with a src pointing to the _systemjs.config.js_ configuration file as well as the import of the _main_ file.
 
 	![Index.cshtml file with System.js configuration](Images/index-file-with-systemjs-config.png?raw=true "Index.cshtml file with System.js configuration")
 
 	_Index.cshtml file with System.js configuration_
 
-1. Now, open the **boot.ts** file located at the **js** folder inside **wwwroot**. This file bootstraps the **OrderApp** component located in the **order-app.component.ts** file.
+1. Now, open the **main.ts** file located at the **js** folder inside **wwwroot**. This file bootstraps the root **App** module located in the **app.module.ts** file.
 
-1. Open the **order-app.component.ts** file. In the top of the file, you will find several imports including two that corresponds to **AgGrid** and additionally, one for the **OrderService** service and another one for the **DetailsGridComponent**.
+1. Open the **app.module.ts** file. In the top of the file, you will find several imports including imports that correspond to all the components used in this module.
 
 	````TypeScript
-	import {Component, View, OnInit} from "angular2/core";
-	import {GridOptions} from "ag-grid/main";
-	import {AgGridNg2} from "ag-grid-ng2/main";
+	import { NgModule }      from '@angular/core';
+	import { BrowserModule } from '@angular/platform-browser';
+	import { AppComponent }   from './app.component';
+	import { AgGridModule } from 'ag-grid-ng2/main';
+	import { DetailsGridComponent } from "./details-grid.component";
+	````
+
+1. Open the **app.component.ts** file. In the top of the file, you will find several imports including one that corresponds to **AgGrid** and one for the **OrderService** service.
+
+	````TypeScript
+	import { Component, OnInit } from "@angular/core";
+
+	import { GridOptions } from "ag-grid/main";
 	import RefData from "./refData";
-	import {IItemInfo} from "./itemInfo";
-	import {DetailsGridComponent} from "./details-grid.component";
-	import {OrderService} from "./order.service";
+	import { IItemInfo } from "./itemInfo";
+	import { OrderService } from "./order.service";
 	````
 
 1. Note that the **OrderApp** component defines its template in a separated html file named **order-app.html** which is located in the **html** folder. Open this file to see how the ag-grid and details-grid components are used inside this component.
@@ -363,7 +396,7 @@ In this task, you will explore the **OrderApp** application which uses two grids
     <details-grid [itemInfo]="selectedItem" (updatedTotal)="updateOrderTotal($event)"></details-grid>
 	````
 
-1. Back in the **order-app.component.ts** file, locate the **Component** decorator and notice the **providers** property. This property is used to configure the dependency injection system in this case configuring the **OrderService** that its consumed in the class's constructor.
+1. Back in the **app.component.ts** file, locate the **Component** decorator and notice the **providers** property. This property is used to configure the dependency injection system in this case configuring the **OrderService** that its consumed in the class's constructor.
 
 	````TypeScript
     constructor(private _orderService: OrderService) {
