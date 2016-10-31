@@ -738,12 +738,30 @@ export class AppModule { }
 
 1. Open the **order.service.ts** file located in the **js** folder under **wwwroot**.
 
-1. In the top of the **order.service.ts** file, remove the MockOrders imports and add the following two imports to use the **Http** service.
+1. In the top of the **order.service.ts** file, remove the MockOrders imports and add the following import to use the **Http** service.
 
 	````TypeScript
 	import { Http, Response, Headers, RequestOptions } from '@angular/http';
-	import "rxjs/Rx";
 	````
+
+1. Add the following imports to be able to use the specific **rxjs** libraries needed as opposed to importing the entire heavy Rx.js library.
+
+	````TypeScript
+	
+	//import "rxjs/Rx"; // adds ALL RxJS statics & operators to Observable
+
+	// Statics
+	import 'rxjs/add/observable/throw';
+
+	// Operators
+	import 'rxjs/add/operator/catch';
+	import 'rxjs/add/operator/debounceTime';
+	import 'rxjs/add/operator/distinctUntilChanged';
+	import 'rxjs/add/operator/map';
+	import 'rxjs/add/operator/switchMap';
+	import 'rxjs/add/operator/toPromise';
+	````
+
 
 1. Add two new private properties to the _OrderService_ class, one for each of the endpoints.
 
