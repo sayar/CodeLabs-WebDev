@@ -931,7 +931,7 @@ In this task, you will create a _Hosted Web Application_ using _ManifoldJS_ and 
 
 1. Open **Visual Studio Community 2015** and the **OrderApp.sln** solution located in the **Source/Ex4/End** folder. Alternatively, you can continue with the solution that you obtained in the previous exercise.
 
-1. In **Solution Explorer**, right-click the **wwwroot** folder and select **Add | New Item...**. Select **JSON File** under the **DNX | Client-Side** menu, change the name to _manifest.json_ and click **Add**.
+1. In **Solution Explorer**, right-click the **wwwroot** folder and select **Add | New Item...**. Select **JSON File** under the **Code** menu, change the name to _manifest.json_ and click **Add**.
 
 	![Creating the manifest.json file](Images/creating-the-manifest.png?raw=true "Creating the manifest.json file")
 
@@ -1015,7 +1015,7 @@ In this task, you will create a _Hosted Web Application_ using _ManifoldJS_ and 
 	manifoldjs -h
 	````
 
-1. Run the following command to create the Windows 10 app based on the _W3C Manifest_ previously created. Note that we are specifying the platform to be Windows 10. Additionally, note that the port number should match the ones specified in the _manifest.json_ and the one the app is actually running.
+1. Run the following command to create the Windows 10 app based on the _W3C Manifest_ previously created in the parent folder or any other folder. Note that we are specifying the platform to be Windows 10. Additionally, note that the port number should match the ones specified in the _manifest.json_ and the one the app is actually running.
 
 	````
 	manifoldjs http://localhost:55804/ -p windows10
@@ -1040,7 +1040,7 @@ _Hosted Web Apps_ in _Windows 10_ have the same advantages as any other Windows 
 
 In this task, you will add live tiles and toast notifications support to your site to be used from inside the Hosted Web App.
 
-1. Switch back to **Visual Studio**. In **Solution Explorer**, right-click the **js** folder located under **wwwroot** and select **Add | New Item...**. Select **JavaScript File** under the **DNX | Client-Side** menu, change the name to _windows-features.js_ and click **Add**.
+1. Switch back to **Visual Studio**. In **Solution Explorer**, right-click the **js** folder located under **wwwroot** and select **Add | New Item...**. Select **JavaScript File** under the **Client-Side** menu, change the name to _windows-features.js_ and click **Add**.
 
 1. Add the following code snippet to perform a feature test to make sure we only execute the calls for Windows 10 APIs when we are actually inside a Windows 10 app.
 

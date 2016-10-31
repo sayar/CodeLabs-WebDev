@@ -4,7 +4,6 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"] - OrderApp</title>
-
         <link rel="manifest" href="manifest.json">
 
         <environment names="Development">
@@ -18,15 +17,10 @@
             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         </environment>
 
-        <script src="~/lib/npmlibs/es6-shim.min.js"></script>
-        <script src="~/lib/npmlibs/systemjs/system-polyfills.src.js"></script>
-        <script src="~/lib/npmlibs/angular2/angular2-polyfills.js"></script>
-
+        <script src="~/lib/npmlibs/shim.min.js"></script>
+        <script src="~/lib/npmlibs/zone.min.js"></script>
+        <script src="~/lib/npmlibs/Reflect.js"></script>
         <script src="~/lib/npmlibs/systemjs/system.src.js"></script>
-        
-        <script src="~/lib/npmlibs/Rx.js"></script>
-        <script src="~/lib/npmlibs/angular2/angular2.js"></script>
-        <script src="~/lib/npmlibs/angular2/http.js"></script>
 
         <link href="~/lib/npmlibs/ag-grid/dist/styles/ag-grid.css" rel="stylesheet" />
         <link href="~/lib/npmlibs/ag-grid/dist/styles/theme-blue.css" rel="stylesheet" />
@@ -49,7 +43,6 @@
                         <li><a asp-controller="Home" asp-action="About">About</a></li>
                         <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                     </ul>
-                    @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
         </div>
@@ -76,8 +69,7 @@
             </script>
         </environment>
 
-        <script src="~/js/windows-features.js"></script>
-
         @RenderSection("scripts", required: false)
+        <script src="~/js/windows-features.js"></script>
     </body>
 </html>

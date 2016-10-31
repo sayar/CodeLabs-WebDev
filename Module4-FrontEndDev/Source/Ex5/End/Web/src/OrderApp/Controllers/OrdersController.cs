@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
-using Microsoft.Data.Entity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrderApp.Models;
 using OrderApp.ViewModels;
 
@@ -18,6 +18,16 @@ namespace OrderApp.Controllers
         public OrdersController(OrdersContext context)
         {
             this.context = context;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.context.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         // GET: api/orders
@@ -45,7 +55,7 @@ namespace OrderApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return HttpBadRequest(ModelState);
+                return BadRequest(ModelState);
             }
 
             var order = await this.context.Orders
@@ -55,7 +65,7 @@ namespace OrderApp.Controllers
 
             if (order == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             return Ok(order.OrderDetails.Select(orderDetails => new OrderDetailsItem()
@@ -67,16 +77,6 @@ namespace OrderApp.Controllers
                 Price = orderDetails.Product.Price,
                 Quantity = orderDetails.Quantity
             }));
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.context.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
     }
 }
