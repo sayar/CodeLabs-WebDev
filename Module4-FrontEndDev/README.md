@@ -353,7 +353,7 @@ gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "cop
 
 1. Now, open the **main.ts** file located at the **js** folder inside **wwwroot**. This file bootstraps the root **App** module located in the **app.module.ts** file.
 
-1. Open the **app.module.ts** file. In the top of the file, you will find several imports including imports that correspond to all the components used in this module.
+1. Open the **app.module.ts** file. In the top of the file, you will find several imports including imports that correspond to all the components used in this module. Every Angular app has at least one module, the root module, conventionally named AppModule. Modules may contain multiple components and may import other modules whose components are needed by the component templates.
 
 	````TypeScript
 	import { NgModule }      from '@angular/core';
@@ -855,6 +855,8 @@ In this exercise you will take advantage of using **Vorlon.JS** to improve your 
 
 In this task you will use the **Vorlon.js Extension** to analyze your site in order to detect issues.
 
+1. Open **Microsoft Edge**, click the **...** dropdown menu button in the navigation bar and click the **Extensions** menu item. Click the **Get extensions from the Store** link and wait for the Store app to load. Use the search bar to search for the "Page Analyzer" app and install it.
+
 1. Open **Visual Studio Community 2015** and the **OrderApp.sln** solution located in the **Source/Ex3/End** folder. Alternatively, you can continue with the solution that you obtained in the previous exercise.
 
 1. Run the solution in **Microsoft Edge** by pressing **F5** in **Visual Studio**.
@@ -868,7 +870,6 @@ In this task you will use the **Vorlon.js Extension** to analyze your site in or
 	_Starting the checks for OrderApp_
 
 1. Once the analysis is completed, explore the results by clicking the rules to get more context about each of them.
-
 
 	![Page analyzer results](Images/page-analyzer-results.png?raw=true "Page analyzer results")
 
