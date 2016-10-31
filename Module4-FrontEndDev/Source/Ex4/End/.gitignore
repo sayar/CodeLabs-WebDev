@@ -1,4 +1,5 @@
 ## App specific excludes
+src/OrderApp/wwwroot/lib/*.js
 src/OrderApp/wwwroot/lib/npmlibs/
 src/OrderApp/wwwroot/js/*.js
 src/OrderApp/wwwroot/js/*.js.map
