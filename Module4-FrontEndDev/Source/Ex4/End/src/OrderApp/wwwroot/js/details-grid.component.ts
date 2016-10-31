@@ -1,5 +1,5 @@
-﻿import {Component, OnChanges, EventEmitter} from "angular2/core";
-import {AgGridNg2} from "ag-grid-ng2/main";
+﻿import {Component, OnChanges, EventEmitter} from "@angular/core";
+
 import {GridOptions} from "ag-grid/main";
 import {IItemInfo} from "./itemInfo";
 import {OrderService} from "./order.service";
@@ -7,7 +7,6 @@ import {OrderService} from "./order.service";
 @Component({
     selector: "details-grid",
     templateUrl: "../html/details-grid.html",
-    directives: [AgGridNg2],
     inputs: ["itemInfo"],
     outputs: ["updatedTotal"],
 })

@@ -892,7 +892,7 @@ In this task, you will set up **Vorlon.JS** and integrate it in your web applica
 1. Install vorlon.js by executing the following command in the **Command Prompt**.
 
 	````
-	npm install -g vorlonjs
+	npm install -g vorlon
 	````
 
 1. In a **Command Prompt**, run the `vorlon` command to initialize the vorlon.js server. Don't close it until the end of this exercise.
