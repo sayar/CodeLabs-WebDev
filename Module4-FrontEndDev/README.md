@@ -265,7 +265,7 @@ In this task, you will explore the **OrderApp** application which uses two grids
 
 1. Locate the **dependencies** node inside the _package.json_ file. In that node, you can find the Angular 2 dependencies described in the previous exercise. Additionally, note that there are two additional dependencies _ag-grid_ and _ag-grid-ng2_ which enable you to use a grid component in your application.
 
-	````JSON
+````JSON
 {
   "name": "ASP.NET",
   "version": "0.0.0",
@@ -308,13 +308,13 @@ In this task, you will explore the **OrderApp** application which uses two grids
     "typescript": "^2.0.3"
   }
 }
-	````
+````
 
 1. These dependencies will be located at the **node_modules** folder which is not served by the web server. In order to be able to consume them, you will need to move the inside the **wwwroot** folder. Open the **gulpfile.js** file located at the root of the **OrderApp** project.
 
 1. In the **gulpfile.js** file you can find some tasks that will copy each of the dependencies to the **lib/npmlibs/** folder inside **wwwroot**. The main task is **moveToLibs** which depends on the **moveToLibs:singleFiles** as well as all the _copy-deps_ tasks.
 
-	````JavaScript
+````JavaScript
 // ...
 
 gulp.task("copy-deps:ag-grid", function () {
@@ -331,7 +331,7 @@ gulp.task('moveToLibs:singleFiles', function () {
 
 gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "copy-deps:ag-grid", 'copy-deps:angular2', 'copy-deps:systemjs', 'copy-deps:rxjs']);
 
-	````
+````
 
 1. In the **Task Runner Explorer** view, right-click the **moveToLibs** task and select **Run** to execute the task. Note that in the same menu, you can bind the tasks to before or after the build, the clean of the project or when the project opens.
 
@@ -376,7 +376,7 @@ gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "cop
 
 1. Note that the **OrderApp** component defines its template in a separated html file named **order-app.html** which is located in the **html** folder. Open this file to see how the ag-grid and details-grid components are used inside this component.
 
-	````HTML
+````HTML
     <ag-grid-ng2 #agGrid id="master-grid" class="ag-blue"
                     [gridOptions]="gridOptions"
                     [columnDefs]="columnDefs"
@@ -394,17 +394,17 @@ gulp.task("moveToLibs", ["moveToLibs:singleFiles", "copy-deps:ag-grid-ng2", "cop
     </ag-grid-ng2>
 
     <details-grid [itemInfo]="selectedItem" (updatedTotal)="updateOrderTotal($event)"></details-grid>
-	````
+````
 
 1. Back in the **app.component.ts** file, locate the **Component** decorator and notice the **providers** property. This property is used to configure the dependency injection system in this case configuring the **OrderService** that its consumed in the class's constructor.
 
-	````TypeScript
+````TypeScript
     constructor(private _orderService: OrderService) {
         // we pass an empty gridOptions in, so we can grab the api out
         this.gridOptions = <GridOptions>{};
         this.createColumnDefs();
     }
-	````
+````
 
 1. In order to be able to inject a class you need that it has the **Injectable** decorator. Open the **order.service.ts** file and verify that this service has this decorator. Note that this service is using mock data, in the next exercise you will update it to consume an API to retrieve and save the data in the server.
 
@@ -719,7 +719,7 @@ In this task, you will use Angular's **Http** service to perform http requests t
 
 1. Add a new import statement for **HTTP_PROVIDERS** from **@angular/http** and add it to the imports array in the NgModule decorator.
 
-	````TypeScript
+````TypeScript
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
@@ -734,7 +734,7 @@ import { DetailsGridComponent } from "./details-grid.component";
     bootstrap: [AppComponent]
 })
 export class AppModule { }
-	````
+````
 
 1. Open the **order.service.ts** file located in the **js** folder under **wwwroot**.
 
@@ -765,24 +765,24 @@ export class AppModule { }
 
 1. Add two new private properties to the _OrderService_ class, one for each of the endpoints.
 
-	````TypeScript
+````TypeScript
     private orderEndpoint = "/api/orders/";
     private orderDetailsEndpoint = "/api/orderDetails/";
-	````
+````
 
 1. Add the constructor of the _OrderService_ class below the new properties to be able to inject the **Http** service and consume it from the methods.
 
-	````TypeScript
+````TypeScript
     private orderEndpoint = "/api/orders/";
     private orderDetailsEndpoint = "/api/orderDetails/";
 
     constructor(private http: Http) {
     }
-	````
+````
 
 1. Replace the implementation of the **getOrders** method with the following code that uses the get method of the **Http** service.
 
-	````TypeScript
+````TypeScript
     getOrders(): Promise<IItemInfo[]> {
         var headers = new Headers();
         headers.append("If-Modified-Since", "Mon, 27 Mar 1972 00:00:00 GMT");
@@ -791,11 +791,11 @@ export class AppModule { }
             .map((res: Response) => <IItemInfo[]>res.json())
             .toPromise();
     }
-	````
+````
 
 1. Replace the implementation of the **getOrderDetails** method with the following one.
 
-	````TypeScript
+````TypeScript
     getOrderDetails(id: number): Promise<any> {
         var headers = new Headers();
         headers.append("If-Modified-Since", "Mon, 27 Mar 1972 00:00:00 GMT");
@@ -805,11 +805,11 @@ export class AppModule { }
             .map((res: Response) => res.json())
             .toPromise();
     }
-	````
+````
 
 1. Replace the implementation of the **updateOrderDetails** method with the following code that take advantage of the put method of the **Http** service to send the updated orderDetails.
 
-	````TypeScript
+````TypeScript
     updateOrderDetails(orderDetails: any): Promise<any> {
         let body = JSON.stringify(orderDetails);
         let headers = new Headers({ "Content-Type": "application/json" });
@@ -818,7 +818,7 @@ export class AppModule { }
         return this.http.put(this.orderDetailsEndpoint + orderDetails.orderDetailsId, body, options)
             .toPromise();
     }
-	````
+````
 
 <a name="Ex3Task3"></a>
 #### Task 3 - Running the Solution ####
